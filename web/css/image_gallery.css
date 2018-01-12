@@ -1,0 +1,61 @@
+.image-kit-input{
+    position: relative;
+    height: 150px;
+    color: #999;
+    border: 2px dashed #999;
+    border-radius: 7px;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background-size: cover;
+    background-position: center center;
+    background-origin: border-box;
+    list-style: none;
+    width:150px;
+}
+.image-kit-item{
+    position: relative;
+    height: 150px;
+    color: #999;
+    border: 2px dashed #999;
+    border-radius: 7px;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    background-size: cover;
+    background-position: center center;
+    background-origin: border-box;
+    list-style: none;
+    width:150px;
+}
+.image-kit-input .add {
+    display: block;
+    position: absolute;
+}
+.image-kit-input .add {
+    font-size: 3em;
+    text-align: center;
+    top: 50%;
+    width: 100%;
+    margin-top: -.5em;
+}
+.image-kit-item .remove {
+    display: none;
+    cursor: pointer;
+    font-size: 3em;
+    text-align: center;
+    top: 50%;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    margin-left: -25px;
+    background-color: rgba(0,0,0,.8);
+    padding: 4px;
+    border-radius: 5px;
+    color: #FFF;
+    margin-top: -.5em;
+    position: absolute;
+}
+.image-kit-item.done:hover .remove {
+    display: block;
+}

@@ -1,0 +1,21 @@
+{
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "name": "handy/yii2-image-gallery",
+  "type": "yii2-extension",
+  "description": "Image gallery",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mayank Singhal ",
+      "email": "mayank_singhal@handysolver.com"
+    }
+  ],
+  "require": {
+    "php": "^5.3.3 || ^7.0",
+    "handy/yii2-image-gallery": "^1.2.0"
+  },
+  "autoload": {
+    "psr-4": { "handy\\imagegallery\\": "src/" }
+  }
+}
