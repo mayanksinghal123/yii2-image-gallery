@@ -5,8 +5,8 @@
  * Date: 02-01-2018
  * Time: 12:18
  */
-namespace backend\widgets\imageGallery\components;
-use backend\widgets\imageGallery\events\StorageEvent;
+namespace handy\imageGallery\components;
+use handy\imageGallery\events\StorageEvent;
 use yii\base\Component;
 
 class Path extends Component

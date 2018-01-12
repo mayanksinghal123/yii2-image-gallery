@@ -1,14 +1,11 @@
 <?php
-namespace backend\widgets\imageGallery;
+namespace handy\imageGallery;
 
-use backend\widgets\imageGallery\components\Path;
-use backend\widgets\imageGallery\getRemote\GetImage;
-use League\Flysystem\FilesystemInterface;
-use trntv\filekit\filesystem\FilesystemBuilderInterface;
-use yii\base\BootstrapInterface;
+use handy\imageGallery\components\Path;
+use handy\imageGallery\getRemote\GetImage;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
-use backend\widgets\imageGallery\events\StorageEvent;
+use handy\imageGallery\events\StorageEvent;
 
 
 class Storage extends Component
@@ -66,28 +63,13 @@ class Storage extends Component
             $this->baseUrl = \Yii::getAlias($this->baseUrl);
         }
 
-        if ($this->filesystemComponent !== null) {
-            $this->filesystem = \Yii::$app->get($this->filesystemComponent);
-        } else {
-            $this->filesystem = \Yii::createObject($this->filesystem);
-            if ($this->filesystem instanceof FilesystemBuilderInterface) {
-                $this->filesystem = $this->filesystem->build();
-            }
-        }
     }
 
-    /**
-     * @return FilesystemInterface
-     * @throws InvalidConfigException
-     */
     public function getFilesystem()
     {
         return $this->filesystem;
     }
 
-    /**
-     * @param $filesystem
-     */
     public function setFilesystem($filesystem)
     {
         $this->filesystem = $filesystem;
@@ -122,87 +104,10 @@ class Storage extends Component
       }
       return false;
     }
-    public function saveOld($remoteUrl,$storageDir)
-    {
-
-        $filename = implode('.', [
-            \Yii::$app->security->generateRandomString(),
-            $this->getExtension($remoteUrl)
-        ]);
-        $path = implode('/', [$this->getDirIndex(), $filename]);
-        $storagePath=$storageDir."/".$path;
-        echo $storagePath;
-        die;
-
-        $imageData=file_get_contents($remoteUrl);
-        if($imageData === FALSE){
-            echo "false";
-        }else{
-            echo "true";
-        }
-        echo "<pre>";
-        print_r($imageData);
-        echo "</pre>";
-        die();
-        if($imageData){
-            if(file_put_contents($storagePath,$imageData)){
-                echo "file put success";
-                return true;
-            }else{
-                echo "file put failed";
-                return false;
-            }
-        }else{
-            return false;
-        }
-
-    }
 
     protected function getExtension($remoteUrl){
         $t=explode('.',$remoteUrl);
         return $t[count($t)-1];
-    }
-
-    /**
-     * @param $files array|\yii\web\UploadedFile[]
-     * @param bool $preserveFileName
-     * @param bool $overwrite
-     * @return array
-     */
-    public function saveAll($files, $preserveFileName = false, $overwrite = false)
-    {
-        $paths = [];
-        foreach ($files as $file) {
-            $paths[] = $this->save($file, $preserveFileName, $overwrite);
-        }
-        return $paths;
-    }
-
-    /**
-     * @param $path
-     * @return bool
-     */
-    public function delete($path)
-    {
-        if ($this->getFilesystem()->has($path)) {
-            $this->beforeDelete($path, $this->getFilesystem());
-            if ($this->getFilesystem()->delete($path)) {
-                $this->afterDelete($path, $this->getFilesystem());
-                return true;
-            };
-        }
-        return false;
-    }
-
-    /**
-     * @param $files
-     */
-    public function deleteAll($files)
-    {
-        foreach ($files as $file) {
-            $this->delete($file);
-        }
-
     }
 
     /**
@@ -211,20 +116,6 @@ class Storage extends Component
     protected function getDirIndex()
     {
         return $this->dirindex;
-    }
-
-    /**
-     * @param $path
-     * @throws InvalidConfigException
-     */
-    public function beforeSave($path)
-    {
-        /* @var \trntv\filekit\events\StorageEvent $event */
-        $event = \Yii::createObject([
-            'class' => StorageEvent::className(),
-            'path' => $path
-        ]);
-        $this->trigger(self::EVENT_BEFORE_SAVE, $event);
     }
 
     /**
@@ -243,35 +134,4 @@ class Storage extends Component
         $this->trigger(self::EVENT_AFTER_SAVE, $event);
     }
 
-    /**
-     * @param $path
-     * @param $filesystem
-     * @throws InvalidConfigException
-     */
-    public function beforeDelete($path, $filesystem)
-    {
-        /* @var \trntv\filekit\events\StorageEvent $event */
-        $event = \Yii::createObject([
-            'class' => StorageEvent::className(),
-            'path' => $path,
-            'filesystem' => $filesystem
-        ]);
-        $this->trigger(self::EVENT_BEFORE_DELETE, $event);
-    }
-
-    /**
-     * @param $path
-     * @param $filesystem
-     * @throws InvalidConfigException
-     */
-    public function afterDelete($path, $filesystem)
-    {
-        /* @var \trntv\filekit\events\StorageEvent $event */
-        $event = \Yii::createObject([
-            'class' => StorageEvent::className(),
-            'path' => $path,
-            'filesystem' => $filesystem
-        ]);
-        $this->trigger(self::EVENT_AFTER_DELETE, $event);
-    }
 }

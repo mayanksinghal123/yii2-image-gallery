@@ -3,8 +3,43 @@
  */
 function uploadImageData(options){
     console.log("dims");
-    console.log(options.values);
+    console.log(options.select);
+    defaultSelect=options.select;
     console.log("dims end");
+    /*-------set more options------*/
+    options.loadButtonText={
+        load:"Load more",
+        no_load:"No more data"
+    };
+    options.id="#image_gallery";
+    options.API_KEY = '7214500-e1add1b17a42cc9b81113484b';
+    options.load_more_button='<div id="pixabay_load_before" style="height: auto;width: 100%;float: left;position: relative;min-height: 1px;padding-right: 15px;padding-left: 15px;text-align: center;padding-top: 10px;">' +
+        '<button id="pixabay_load_before_button" onclick="loadMoreData(this)" type="button" class="" style="border:1px #6a7785 solid;background-color: #e5e9f4;padding: 10px 40px 10px 40px;border-radius: 30px;color: #6a7785;">Load more</button>'+
+        '</div>';
+    options.curr_page=1;
+    options.URL;
+    options.categoryArray=['All', 'Fashion', 'Nature', 'Backgrounds', 'Science', 'Education', 'People', 'Feelings', 'Religion', 'Health', 'Places', 'Animals', 'Industry', 'Food', 'Computer', 'Sports', 'Transportation', 'Travel', 'Buildings', 'Business', 'Music'];
+    options.categoryArrayVal=['all','fashion', 'nature', 'backgrounds', 'science', 'education', 'people', 'feelings', 'religion', 'health', 'places', 'animals', 'industry', 'food', 'computer', 'sports', 'transportation', 'travel', 'buildings', 'business', 'music'];
+
+
+    options.mediaArray=['All images', 'Photos','Vector graphics','Illustrations'];
+    options.mediaArrayVal=["all", "photo",  "vector","illustration"];
+
+    options.orientationArray=['All','Horizontal','Vertical'];
+    options.orientationArrayVal=['all','horizontal','vertical'];
+
+    options.orderArray=['Popular','Latest'];
+    options.orderArrayVal=['popular','latest'];
+
+    options.filterData={
+        category:options.categoryArrayVal[0],
+        media:options.mediaArrayVal[0],
+        orientation:options.orientationArrayVal[0],
+        order:options.orderArrayVal[0]
+    };
+    options.imageChoose=null;
+    options.defaultSelect=options.select;
+    /*------end more options-----*/
     options.styleComp={
         div_in:'image-kit-input',
         div_out:'image-kit-item done',
@@ -20,7 +55,9 @@ function uploadImageData(options){
     options.div_1="3098821_handy_image_gallery_cont_dddr_44_5rt5667_22s3_5672";
     options.visibleImage="visible";
     var methods = {
+        defaultSelect:null,
         init: function(){
+            this.defaultSelect=options.select;
             if(options.values==null){
 //options.url=0;
                 options.newItem=true;
@@ -64,7 +101,8 @@ function uploadImageData(options){
                 .append($('<span/>', {"class": span_class}));
             $("#"+options.cont_id+ " #piaxabay_img_container").append(item);
             $(item).on("click",function(){
-                methods.checkToStartImageGallery();
+                //alert(options.select);
+                 methods.checkToStartImageGallery();
             })
         },
         checkToStartImageGallery:function(){
@@ -80,7 +118,7 @@ function uploadImageData(options){
             $("#iframe_iframe").contents().find('body').html(options.pixabayHtmlData);
 
             parent.pixabayDesign().onWindowResize();
-            pixabayDesign().init(this);
+            pixabayDesign().init(this,options);
 
         },
         onUseImage:function(obj){
@@ -114,7 +152,8 @@ function uploadImageData(options){
             $("#"+options.cont_id+" ."+options.inputClass).val("");
             $("#"+options.cont_id+" ."+options.inputClass_2).val("");
 
-            $("#"+options.cont_id+" #"+options.id).val("");
+            //$("#"+options.cont_id+" #"+options.id).val("");
+
 
              $("#"+options.cont_id+ " img").removeAttr("src");
             methods.setImageVisibility('hidden');
@@ -144,6 +183,9 @@ function uploadImageData(options){
                    }
             }
         });
+        },
+        pixabayFunctions:{
+
         }
     }
     /*methods.init.apply(this);*/
@@ -151,54 +193,92 @@ function uploadImageData(options){
 }
 
 /*------Pixabay functions------*/
-var loadButtonText={
-    load:"Load more",
-    no_load:"No more data"
-}
-var id="#image_gallery";
-var API_KEY = '7214500-e1add1b17a42cc9b81113484b';
-var load_more_button='<div id="pixabay_load_before" style="height: auto;width: 100%;float: left;position: relative;min-height: 1px;padding-right: 15px;padding-left: 15px;text-align: center;padding-top: 10px;">' +
-    '<button id="pixabay_load_before_button" onclick="loadMoreData(this)" type="button" class="" style="border:1px #6a7785 solid;background-color: #e5e9f4;padding: 10px 40px 10px 40px;border-radius: 30px;color: #6a7785;">Load more</button>'+
-    '</div>';
-var curr_page=1;
+var loadButtonText;
+var id;
+var API_KEY ;
+var load_more_button;
+var curr_page;
 var URL;
-var categoryArray=['All', 'Fashion', 'Nature', 'Backgrounds', 'Science', 'Education', 'People', 'Feelings', 'Religion', 'Health', 'Places', 'Animals', 'Industry', 'Food', 'Computer', 'Sports', 'Transportation', 'Travel', 'Buildings', 'Business', 'Music'];
-var categoryArrayVal=['all','fashion', 'nature', 'backgrounds', 'science', 'education', 'people', 'feelings', 'religion', 'health', 'places', 'animals', 'industry', 'food', 'computer', 'sports', 'transportation', 'travel', 'buildings', 'business', 'music'];
-
-
-var mediaArray=['All images', 'Photos','Vector graphics','Illustrations'];
-var mediaArrayVal=["all", "photo",  "vector","illustration"];
-
-var orientationArray=['All','Horizontal','Vertical'];
-var orientationArrayVal=['all','horizontal','vertical'];
-
-var orderArray=['Popular','Latest'];
-var orderArrayVal=['popular','latest'];
-
-var filterData={
-    category:categoryArrayVal[0],
-    media:mediaArrayVal[0],
-    orientation:orientationArrayVal[0],
-    order:orderArrayVal[0]
-};
-var imageChoose=null;
-var oldObj=null;
+var categoryArray;
+var categoryArrayVal;
+var mediaArray;
+var mediaArrayVal;
+var orientationArray;
+var orientationArrayVal;
+var orderArray;
+var orderArrayVal;
+var filterData;
+var imageChoose;
+var defaultSelect;
+var searchQuery;
+var oldObj;
+var catIndex,mediaIndex,orientationIndex,orderIndex,query;
 function pixabayDesign(){
     var methods={
+        oldObj:null,
         initiatePixabayVariables:function(){
-            console.log("initiate data");
-            filterData.category=categoryArrayVal[0];
-            filterData.media=mediaArrayVal[0];
-            filterData.orientation=orientationArrayVal[0];
-            filterData.order=orderArrayVal[0];
+            //alert(defaultSelect);
+
+            if(defaultSelect==0){
+                catIndex=0;
+                mediaIndex=0;
+                orientationIndex=0;
+                orderIndex=0;
+                query=-1;
+            }else{
+                catIndex=this.returnTrueIndex($.inArray(defaultSelect.category,categoryArrayVal));
+                mediaIndex=this.returnTrueIndex($.inArray(defaultSelect.media,mediaArrayVal));
+                orientationIndex=this.returnTrueIndex($.inArray(defaultSelect.orientation,orientationArrayVal));
+                orderIndex=this.returnTrueIndex($.inArray(defaultSelect.order,orderArrayVal));
+                if(typeof defaultSelect.query != 'undefined'){
+                    query=defaultSelect.query;
+                }
+            }
+            filterData.category=categoryArrayVal[catIndex];
+            filterData.media=mediaArrayVal[mediaIndex];
+            filterData.orientation=orientationArrayVal[orientationIndex];
+            filterData.order=orderArrayVal[orderIndex];
+            searchQuery=query;
+
+            parent.pixabayDesign().setButtonImageData(mediaIndex);
+        },
+        returnTrueIndex:function(val){
+            if(val==-1){
+                return 0;
+            }
+            return val;
         },
         onWindowResize:function(){
             windowHeight = $(window).innerHeight();
             $("#iframe_iframe").css("height",windowHeight+"px");
 
         },
-        init:function(that){
+        setAllVariables:function(options){
+            loadButtonText=options.loadButtonText;
+            id=options.id;
+            API_KEY = options.API_KEY;
+            load_more_button=options.load_more_button;
+            curr_page=options.curr_page;
+            URL=options.URL;
+            categoryArray=options.categoryArray;
+            categoryArrayVal=options.categoryArrayVal;
+
+            mediaArray=options.mediaArray;
+            mediaArrayVal=options.mediaArrayVal;
+
+            orientationArray=options.orientationArray;
+            orientationArrayVal=options.orientationArrayVal;
+
+            orderArray=options.orderArray;
+            orderArrayVal=options.orderArrayVal;
+
+            filterData=options.filterData;
+            imageChoose=options.imageChoose;
+            defaultSelect=options.defaultSelect;
+        },
+        init:function(that,options){
             oldObj=that;
+            this.setAllVariables(options);
             for(var i in categoryArray){
                 $("#iframe_iframe").contents().find('#category-options').append($('<option>', {
                     value: categoryArray[i],
@@ -249,6 +329,8 @@ function pixabayDesign(){
                 $(e.target).data("bs.popover").inState.click = false;
             });
             parent.pixabayDesign().setButtonImageData(0);
+
+            parent.pixabayDesign().onSearchStart.setImages(true);
         },
         getMedia:function(obj){
             var index=mediaArrayVal.indexOf($(obj).val());
@@ -272,23 +354,26 @@ function pixabayDesign(){
         onSearchStart:{
             searchIt:function(){
                 var val=$("#iframe_iframe").contents().find("#search_data_pixabay").val();
-                parent.pixabayDesign().onSearchStart.setImages(val);
+                searchQuery=val;
+                parent.pixabayDesign().onSearchStart.setImages(false);
                 return false;
             },
-            setImages:function(query){
-                if(query==-1){
+            setImages:function(initiate){
+                if(initiate){
                     parent.pixabayDesign().initiatePixabayVariables();
                 }
+
                 imageChoose=null;
                 parent.pixabayDesign().onSearchStart.resetImageFound();
                 parent.pixabayDesign().onSearchStart.enableLoadMoreButton();
                 curr_page=1;
                 var urlParam="&image_type="+filterData.media+"&category="+filterData.category+"&orientation="+filterData.orientation+"&order="+filterData.order+"&safesearch=true";
-                if(query==-1){
+                URL = "https://pixabay.com/api/?key="+API_KEY+"&q="+encodeURIComponent(searchQuery)+urlParam;
+                /*if(query==-1){
                     URL = "https://pixabay.com/api/?key="+API_KEY+urlParam;
                 }else{
-                    URL = "https://pixabay.com/api/?key="+API_KEY+"&q="+encodeURIComponent(query)+urlParam;
-                }
+                    URL = "https://pixabay.com/api/?key="+API_KEY+"&q="+encodeURIComponent(searchQuery)+urlParam;
+                }*/
                 var newUrl=URL+"&page="+curr_page;
                 $.getJSON(newUrl, function(data){
                     data.loadMoreButton=load_more_button;

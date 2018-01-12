@@ -7,7 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
-namespace backend\widgets\imageGallery\getRemote;
+namespace handy\imageGallery\getRemote;
 
 
 class GetImage {

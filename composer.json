@@ -16,6 +16,6 @@
     "handy/yii2-image-gallery": "^1.2.0"
   },
   "autoload": {
-    "psr-4": { "handy\\imagegallery\\": "src/" }
+    "psr-4": { "handy\\imageGallery\\": "" }
   }
 }

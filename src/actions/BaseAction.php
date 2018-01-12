@@ -1,5 +1,5 @@
 <?php
-namespace backend\widgets\imageGallery\src\actions;
+namespace handy\imageGallery\src\actions;
 
 use yii\base\Action;
 use yii;
@@ -22,7 +22,7 @@ abstract class BaseAction extends Action
 
 
     /**
-     * @return \backend\widgets\imageGallery\Storage
+     * @return \handy\imageGallery\Storage
      * @throws \HttpException
      * @throws \yii\base\InvalidConfigException
      */

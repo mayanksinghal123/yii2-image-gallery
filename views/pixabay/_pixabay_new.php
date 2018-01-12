@@ -56,10 +56,10 @@
             border-radius: 15px;
         }
         .btn-circle.btn-lg {
-            width: 50px;
-            height: 50px;
-            padding: 10px 16px;
-            font-size: 18px;
+            width: 35px;
+            height: 35px;
+            padding: 5px 10px;
+            font-size: 12px;
             line-height: 1.33;
             border-radius: 25px;
         }
@@ -77,6 +77,14 @@
         .show_gallery{
             display: none;
         }
+    .use_image{
+        background: #008000;
+        text-shadow: unset;
+    }
+    .cancel_mg{
+        background: #ff2528;
+        text-shadow: unset;
+    }
     </style>
 <!--image gallery css below-->
 <style>
@@ -189,11 +197,11 @@
         z-index: 9999 !important;
     }
 </style>
-<div class="" id="pixabay_image_gallery">
+<div class="" id="pixabay_image_gallery" style="margin: 0 15px 0 15px;">
     <div class="row">
-        <div class="col-md-12" style="background: white; position: fixed; z-index:999;">
+        <div class="col-md-12" style="background: white; position: fixed; z-index:999;padding: 20px 0 20px 0;">
             <form onsubmit="return parent.pixabayDesign().onSearchStart.searchIt()">
-                <div class="row" style="padding: 10px;    display: flex;flex-wrap: wrap;">
+                <div class="row" style="display: flex;flex-wrap: wrap;">
 
                     <div class="col-lg-3"></div>
                     <div class="col-lg-6 " style="display: flex;align-items: center;justify-content: center;">
@@ -208,9 +216,9 @@
       </span>
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <button onclick="parent.pixabayDesign().onSearchStart.useImage()" type="button" class="btn btn-default btn-circle btn-lg"><i class="fa fa-check"></i></button>
-                        <button onclick="parent.pixabayDesign().onSearchStart.cancelImage()" type="button" class="btn btn-warning btn-circle btn-lg"><i class="fa fa-remove"></i></button>
+                    <div class="col-lg-2">
+                        <button onclick="parent.pixabayDesign().onSearchStart.useImage()" type="button" class="btn btn-default btn-circle btn-lg use_image"><i class="fa fa-check"></i></button>
+                        <button onclick="parent.pixabayDesign().onSearchStart.cancelImage()" type="button" class="btn btn-warning btn-circle btn-lg cancel_mg"><i class="fa fa-remove"></i></button>
                     </div>
 
                 </div>
@@ -276,7 +284,7 @@
 </div>
 <script>
     $(document).ready(function(){
-        parent.pixabayDesign().onSearchStart.setImages(-1);
+        //parent.pixabayDesign().onSearchStart.setImages(-1);
     })
     var bootstrap3_enabled = (typeof $().emulateTransitionEnd == 'function');
 </script>

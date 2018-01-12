@@ -1,5 +1,5 @@
 <?php
-namespace backend\widgets\imageGallery;
+namespace handy\imageGallery;
 
 use Yii;
 use yii\base\Widget;
@@ -16,6 +16,7 @@ class ImageGallery extends InputWidget
     public $data;
     public $url;
     public $dims;
+    public $imageSelect;
 
     /**
      * @var string
@@ -45,6 +46,10 @@ class ImageGallery extends InputWidget
         self::setAliases();
 
         $this->cont_unique_id=\Yii::$app->security->generateRandomString();
+        $imageSelect=0;
+        if(!empty($this->imageSelect) && is_array($this->imageSelect)){
+            $imageSelect=$this->imageSelect;
+        }
         if(!empty($this->message)){
             $this->function_name=$this->generateRandomString(7);
             $this->message=str_replace('onHandyImageGet',$this->function_name,$this->message);
@@ -77,6 +82,7 @@ class ImageGallery extends InputWidget
                 'cont_id'=>$this->cont_unique_id,
                 'function_name'=>$this->function_name,
                 'id'=>$this->options['id'],
+                'select'=>$imageSelect,
 
             ],
             $this->clientOptions

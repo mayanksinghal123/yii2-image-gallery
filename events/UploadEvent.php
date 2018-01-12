@@ -5,7 +5,7 @@
  * Date: 02-01-2018
  * Time: 11:27
  */
-namespace backend\widgets\imageGallery\events;
+namespace handy\imageGallery\events;
 use yii\base\Event;
 class UploadEvent extends Event
 {

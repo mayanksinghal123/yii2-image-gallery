@@ -1,9 +1,9 @@
 <?php
-namespace backend\widgets\imageGallery\src\actions;
+namespace handy\imageGallery\src\actions;
 
-use backend\widgets\imageGallery\components\Path;
-use backend\widgets\imageGallery\events\UploadEvent;
-use backend\widgets\imageGallery\Storage;
+use handy\imageGallery\components\Path;
+use handy\imageGallery\events\UploadEvent;
+use handy\imageGallery\Storage;
 use yii\web\Response;
 
 class ImageGalleryUploadAction extends BaseAction

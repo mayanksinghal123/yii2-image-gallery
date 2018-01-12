@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\widgets\imageGallery;
+namespace handy\imageGallery;
 
 use yii\web\AssetBundle;
 use yii\web\View;
